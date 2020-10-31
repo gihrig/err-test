@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+      - dev
+      - master
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+      - master
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  Build-Production-Server:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: nightly
+
+      - uses: davidB/rust-cargo-make@v1
+
+      - name: Build-Server
+        run: cargo build --verbose
+
+      - name: Cargo-Test
+        # run: cargo make test_server
+        run: cargo test --verbose
+
+      # - name: Build-Server
+      #   run: cargo make build_server
+
+      - name: Upload-Server-Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: server
+          path: /home/runner/work/eagems/eagems/target/release/server
+          if-no-files-found: error
