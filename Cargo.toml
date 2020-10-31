@@ -1,0 +1,8 @@
+[package]
+name = "err-test"
+version = "0.1.0"
+authors = ["gihrig <glen@arkadias.com>"]
+edition = "2018"
+
+[dependencies]
+trust-dns-proto = "0.18.0-alpha.2"
