@@ -1,15 +1,12 @@
 # This Fails on Github
 
+name: Rust
+
 on:
   push:
-    branches:
-      - dev
-      - master
+    branches: [master]
   pull_request:
-    types: [closed]
-    branches:
-      - dev
-      - master
+    branches: [master]
 
 env:
   CARGO_TERM_COLOR: always
