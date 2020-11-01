@@ -27,9 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - uses: hecrj/setup-rust-action@v1
-      #   with:
-      #     rust-version: nightly
+      - uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: 1.47.0
 
       # - uses: actions-rs/toolchain@v1
       #   with:
@@ -45,8 +45,8 @@ jobs:
       # - name: Set nightly override
       #   run: rustup override set nightly
 
-      - name: Report rustc toolchain versions
-        run: rustc -V && rustup -V && cargo -V and cargo make -V
+      - name: Report rust toolchain versions
+        run: rustc -V && rustup -V && cargo -V && cargo make -V
 
       - uses: davidB/rust-cargo-make@v1
 
