@@ -15,6 +15,9 @@ on:
       - dev
       - master
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   Build-Production-Server:
     runs-on: ubuntu-20.04
@@ -34,7 +37,10 @@ jobs:
         run: cargo test -v --workspace --all-features --release
 
       - name: Build-Server
-        run: cargo make build_server
+        run: cargo build -v --workspace --all-features --release
+
+      - name: List-files
+        pwd && ls -Rla
 
       # - name: Upload-Server-Artifact
       #   uses: actions/upload-artifact@v2
