@@ -40,7 +40,7 @@ jobs:
         run: cargo build -v --workspace --all-features --release
 
       - name: List-files
-        pwd && ls -Rla
+        run: pwd && ls -Rla
 
       # - name: Upload-Server-Artifact
       #   uses: actions/upload-artifact@v2
