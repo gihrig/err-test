@@ -31,10 +31,19 @@ jobs:
       #   with:
       #     rust-version: nightly
 
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
+      # - uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: nightly
+      #     override: true
+
+      - name: Install nightly toolchain
+        run: rustup toolchain install nightly
+
+      - name: Install gnu linux target
+        run: rustup target add --toolchain nightly x86_64-unknown-linux-gnu
+
+      - name: Set nightly override
+        run: rustup override set nightly
 
       - uses: davidB/rust-cargo-make@v1
 
