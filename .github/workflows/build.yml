@@ -45,10 +45,10 @@ jobs:
       # - name: Set nightly override
       #   run: rustup override set nightly
 
+      - uses: davidB/rust-cargo-make@v1
+
       - name: Report rust toolchain versions
         run: rustc -V && rustup -V && cargo -V && cargo make -V
-
-      - uses: davidB/rust-cargo-make@v1
 
       - name: Cargo-Test
         run: cargo make test_server
