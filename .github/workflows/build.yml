@@ -40,7 +40,7 @@ jobs:
         run: cargo make build_server
 
       - name: List-files
-        run: pwd && ls -Rla
+        run: pwd && ls -Rla target/release
 
       # - name: Upload-Server-Artifact
       #   uses: actions/upload-artifact@v2
