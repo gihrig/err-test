@@ -24,22 +24,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hecrj/setup-rust-action@v1
-        with:
-          rust-version: nightly
+      # - uses: hecrj/setup-rust-action@v1
+      #   with:
+      #     rust-version: nightly
 
       - uses: davidB/rust-cargo-make@v1
 
       - name: Cargo-Test
-        # run: cargo make test_server
         run: cargo test -v --workspace --all-features --release
 
       - name: Build-Server
         run: cargo make build_server
 
-      - name: Upload-Server-Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: server
-          path: /home/runner/work/eagems/eagems/target/release/server
-          if-no-files-found: error
+      # - name: Upload-Server-Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: server
+      #     path: /home/runner/work/eagems/eagems/target/release/server
+      #     if-no-files-found: error
