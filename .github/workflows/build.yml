@@ -48,4 +48,3 @@ jobs:
           name: server
           path: /home/runner/work/err-test/err-test/target/release/err-test
           if-no-files-found: error
-          /Users/glen/Documents/Rust/err-test/target/release/err-test
