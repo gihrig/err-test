@@ -13,7 +13,7 @@ env:
 
 jobs:
   Build-Production-Server:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: .
