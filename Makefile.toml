@@ -1,0 +1,113 @@
+# ---- DEV ----
+
+[tasks.dev]
+description = "Start client in development mode"
+workspace = false
+script_runner = "@shell"
+script = [
+'''
+yarn dev
+'''
+]
+
+[tasks.server_debug]
+description = "Build server in development mode"
+workspace = false
+command = "cargo"
+args = ["build", "--package", "${CARGO_MAKE_PROJECT_NAME}"]
+
+# ---- BUILD CLIENT ----
+
+[tasks.build_client]
+description = "Build client in release mode"
+workspace = false
+script_runner = "@shell"
+script = [
+'''
+yarn build:prod
+'''
+]
+
+# ---- BUILD SERVER ----
+
+[tasks.build_server]
+description = "Build server in release mode"
+workspace = false
+command = "cargo"
+args = ["build", "--package", "${CARGO_MAKE_PROJECT_NAME}", "--release"]
+
+# ---- BUILD ----
+
+[tasks.build]
+description = "Build client and server in release mode"
+clear = true
+workspace = false
+dependencies = ["build_server", "build_client"]
+
+# ---- START ----
+
+[tasks.start_client]
+description = "Start Release mode Client on port 3000"
+workspace = false
+script_runner = "@shell"
+script = [
+'''
+yarn serve:prod
+'''
+]
+dependencies = ["build_client"]
+
+[tasks.start_server]
+description = "Build and start Actix server on port 8000 in release mode"
+workspace = false
+command = "cargo"
+args = ["run", "--package", "${CARGO_MAKE_PROJECT_NAME}", "--release"]
+dependencies = ["build_server"]
+
+# ---- Test and LINT ----
+
+[tasks.test_app]
+desription = "Run cypress tests on assembled app"
+workspace = false
+script_runner = "@shell"
+script = [
+'''
+target/release/${CARGO_MAKE_PROJECT_NAME} &
+yarn test
+killall -9 ${CARGO_MAKE_PROJECT_NAME}
+'''
+]
+
+[tasks.test_server]
+description = "Run rust tests"
+workspace = false
+command = "cargo"
+args = ["test", "--workspace", "--all-features", "--release"]
+
+[tasks.fmt]
+description = "Format with rustfmt"
+workspace = false
+install_crate = { crate_name = "rustfmt-nightly", rustup_component_name = "rustfmt", binary = "rustfmt", test_arg = "--help" }
+command = "cargo"
+args = ["fmt", "--all"]
+
+[tasks.fmt_check]
+extend = "fmt"
+description = "Check format with rustfmt"
+args = ["fmt", "--all", "--", "--check"]
+
+[tasks.clippy]
+description = "Lint with Clippy"
+clear = true
+workspace = false
+install_crate = { rustup_component_name = "clippy", binary = "cargo-clippy", test_arg = "--help" }
+command = "cargo"
+args = ["clippy", "--all-features", "--",
+    "--deny", "warnings",
+    "--deny", "clippy::pedantic",
+    "--deny", "clippy::nursery",
+    "--allow", "clippy::wildcard_imports", # for `use seed::{prelude::*, *};`
+    "--allow", "clippy::future_not_send", # JS/WASM is single threaded
+    "--allow", "clippy::used_underscore_binding", # some libraries break this rule
+    "--allow", "clippy::eval_order_dependence", # false positives
+]

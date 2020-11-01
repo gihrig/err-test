@@ -34,10 +34,10 @@ jobs:
       - uses: davidB/rust-cargo-make@v1
 
       - name: Cargo-Test
-        run: cargo test -v --workspace --all-features --release
+        run: cargo make test_server
 
       - name: Build-Server
-        run: cargo build -v --workspace --all-features --release
+        run: cargo make build_server
 
       - name: List-files
         run: pwd && ls -Rla
@@ -46,5 +46,5 @@ jobs:
       #   uses: actions/upload-artifact@v2
       #   with:
       #     name: server
-      #     path: /home/runner/work/eagems/eagems/target/release/server
+      #     path: /home/runner/work/err-test/err-test/target/release/server
       #     if-no-files-found: error
