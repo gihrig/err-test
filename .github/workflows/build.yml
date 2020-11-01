@@ -27,9 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - uses: hecrj/setup-rust-action@v1
-      #   with:
-      #     rust-version: nightly
+      - uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: nightly
 
       - uses: davidB/rust-cargo-make@v1
 
