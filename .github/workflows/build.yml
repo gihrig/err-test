@@ -1,38 +1,45 @@
-# This Fails on Github
-
-name: Rust
+name: Build/Test Svelte/Rust App
+# Inefficiencies:
+# Runs build and test jobs for both dev and master
+# if: contains(...) fail because artifacts are lost between runs
+# Runs client and server builds when there are no changes
 
 on:
   push:
-    branches: [master]
+    branches:
+      - dev
+      - master
   pull_request:
-    branches: [master]
-
-env:
-  CARGO_TERM_COLOR: always
+    types: [closed]
+    branches:
+      - dev
+      - master
 
 jobs:
   Build-Production-Server:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: .
     steps:
       - uses: actions/checkout@v2
 
-      - uses: davidB/rust-cargo-make@v1
+      - uses: hecrj/setup-rust-action@v1
+        with:
+          rust-version: nightly
 
-      - name: Build-Server
-        run: cargo build --verbose
+      - uses: davidB/rust-cargo-make@v1
 
       - name: Cargo-Test
         # run: cargo make test_server
-        run: cargo test --verbose
+        run: cargo test -v --workspace --all-features --release
 
-      # - name: Build-Server
-      #   run: cargo make build_server
+      - name: Build-Server
+        run: cargo make build_server
 
-      # - name: Upload-Server-Artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: server
-      #     path: /home/runner/work/eagems/eagems/target/release/server
-      #     if-no-files-found: error
+      - name: Upload-Server-Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: server
+          path: /home/runner/work/eagems/eagems/target/release/server
+          if-no-files-found: error
