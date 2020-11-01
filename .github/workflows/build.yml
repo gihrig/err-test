@@ -27,9 +27,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hecrj/setup-rust-action@v1
+      # - uses: hecrj/setup-rust-action@v1
+      #   with:
+      #     rust-version: nightly
+
+      - uses: actions-rs/toolchain@v1
         with:
-          rust-version: nightly
+          toolchain: nightly
+          override: true
 
       - uses: davidB/rust-cargo-make@v1
 
