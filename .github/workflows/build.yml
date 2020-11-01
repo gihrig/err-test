@@ -36,14 +36,17 @@ jobs:
       #     toolchain: nightly
       #     override: true
 
-      - name: Install nightly toolchain
-        run: rustup toolchain install nightly
+      # - name: Install nightly toolchain
+      #   run: rustup toolchain install nightly
 
-      - name: Install gnu linux target
-        run: rustup target add --toolchain nightly x86_64-unknown-linux-gnu
+      # - name: Install gnu linux target
+      #   run: rustup target add --toolchain nightly x86_64-unknown-linux-gnu
 
-      - name: Set nightly override
-        run: rustup override set nightly
+      # - name: Set nightly override
+      #   run: rustup override set nightly
+
+      - name: Report rustc toolchain versions
+        run: rustc -V && rustup -V && cargo -V and cargo make -V
 
       - uses: davidB/rust-cargo-make@v1
 
